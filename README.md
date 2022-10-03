@@ -5,6 +5,8 @@ _version_ is a command line tool for quickly saving copies of files with a diffe
 
 Many times when I'm writing scripts that have file output I want to save the previous versions of a file so I can test that any refactoring I do still produes the same output.  To verify the data I often I use a companion program [hashchk].
 
+I also sometimes have the need for this functionality in a docker file or some other script I want to share and I don't want to embed this Go binary.  For cases like this I have added `version.sh` which only has the ability to copy the file while adding the file modification time.
+
 Usage
 -----
 
