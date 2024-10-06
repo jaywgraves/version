@@ -70,11 +70,11 @@ func main() {
 	fmtstring := ""
 	switch {
 	case (*dateflg && *timeflg) || (!*dateflg && !*timeflg):
-		fmtstring = "20060102.030405"
+		fmtstring = "20060102.150405"
 	case *dateflg && !*timeflg:
 		fmtstring = "20060102"
 	case !*dateflg && *timeflg:
-		fmtstring = "030405"
+		fmtstring = "150405"
 	}
 	if flag.NArg() == 0 {
 		fmt.Fprintf(os.Stderr, "No file specifications given as arguments.\n")
