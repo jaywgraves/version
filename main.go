@@ -91,6 +91,10 @@ func main() {
 		matches, _ := filepath.Glob(a)
 		for _, m := range matches {
 			fi, _ := os.Stat(m)
+			if fi.IsDir() && !*silentflg {
+				fmt.Printf("cannot version '%s': it is a directory\n", m)
+				continue
+			}
 			switch {
 			case *modflg:
 				versionstring = fi.ModTime().Format(fmtstring)
