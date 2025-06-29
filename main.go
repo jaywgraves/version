@@ -45,7 +45,14 @@ func newName(oldname, versionstring string) (oldnameabs, newname string) {
 	dir, fname := filepath.Split(oldname)
 	fext := filepath.Ext(fname)
 	fbase := fname[:len(fname)-len(fext)]
-	newfname := fbase + "." + versionstring + fext
+	var newfname string
+	if len(fbase) == 0 {
+		// hidden files get the version string appended
+		newfname = fext + "." + versionstring
+	} else {
+		// regular files keep their extension and embed the version string
+		newfname = fbase + "." + versionstring + fext
+	}
 	newname = filepath.Join(dir, newfname)
 	return
 
