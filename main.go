@@ -94,8 +94,15 @@ func main() {
 		nowstr = time.Now().Format(fmtstring)
 	}
 	var versionstring string
+	exitcode := 0
 	for _, a := range flag.Args() {
 		matches, _ := filepath.Glob(a)
+		if len(matches) == 0 {
+			if !*silentflg {
+				fmt.Printf("no matches found for '%s'.\n", a)
+			}
+			exitcode = 404
+		}
 		for _, m := range matches {
 			fi, _ := os.Stat(m)
 			if fi.IsDir() && !*silentflg {
@@ -115,5 +122,5 @@ func main() {
 			CreateFileVersion(newname, oldname, fi)
 		}
 	}
-
+	os.Exit(exitcode)
 }
