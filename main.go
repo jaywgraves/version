@@ -101,7 +101,7 @@ func main() {
 			if !*silentflg {
 				fmt.Printf("no matches found for '%s'.\n", a)
 			}
-			exitcode = 404
+			exitcode = 42
 		}
 		for _, m := range matches {
 			fi, _ := os.Stat(m)
