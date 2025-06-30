@@ -10,13 +10,14 @@ import (
 )
 
 var Usage = func() {
-	fmt.Fprintf(os.Stderr, "Usage:  %s -c|-m [-d -t] files... \n", os.Args[0])
+	fmt.Fprintf(os.Stderr, "Usage:  %s -c|-m [-d -t] [-u=string] files... \n", os.Args[0])
 	fmt.Fprintf(os.Stderr, "\nThis utility will copy all the files that are given as arguments and give each\n")
 	fmt.Fprintf(os.Stderr, "new file a name that has a datetime string (either current or file modification\n")
 	fmt.Fprintf(os.Stderr, "time) preceding the file extension.\n\n")
 	fmt.Fprintf(os.Stderr, "If neither the -m or the -c flag is set, then -m will be defaulted.\n")
 	fmt.Fprintf(os.Stderr, "Any combination of the -d and -t flags can be set. If neither are set,\n")
-	fmt.Fprintf(os.Stderr, "then both will be defaulted.\n\n")
+	fmt.Fprintf(os.Stderr, "then both will be defaulted.\n")
+	fmt.Fprintf(os.Stderr, "The -u flag will use the given string in place of a date/time.\n\n")
 	flag.PrintDefaults()
 	fmt.Fprintf(os.Stderr, "  files...: 1 or more file name specifications\n")
 }
@@ -62,6 +63,7 @@ func main() {
 	currflg := flag.Bool("c", false, "current: use current date in version string")
 	dateflg := flag.Bool("d", false, "date: add YYMMDD to version string")
 	timeflg := flag.Bool("t", false, "time: add HHMMSS to version string")
+	customflg := flag.String("u", "", "custom: provide a short string for naming")
 	silentflg := flag.Bool("s", false, "silent: suppress output")
 
 	flag.Usage = Usage
@@ -114,6 +116,9 @@ func main() {
 				versionstring = fi.ModTime().Format(fmtstring)
 			case *currflg:
 				versionstring = nowstr
+			}
+			if len(*customflg) > 0 {
+				versionstring = *customflg
 			}
 			oldname, newname := newName(m, versionstring)
 			if !*silentflg {
